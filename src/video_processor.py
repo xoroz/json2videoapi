@@ -3,18 +3,45 @@ import json
 import os
 import tempfile
 import asyncio
+import uuid
+from datetime import datetime
+from typing import Dict, Optional
 from pathlib import Path
-from .schemas import VideoProject
+from .schemas import VideoProject, JobStatus
 from .config_loader import ROOT_DIR, get_output_dir
 
 class VideoProcessingError(Exception):
     pass
 
-async def generate_video(project: VideoProject) -> str:
-    """
-    Generates a video from the project definition using the zvid Node.js script.
-    Returns the path to the generated video file.
-    """
+class JobManager:
+    def __init__(self):
+        self.jobs: Dict[str, dict] = {}
+
+    def create_job(self, project_name: str) -> str:
+        job_id = str(uuid.uuid4())
+        self.jobs[job_id] = {
+            "job_id": job_id,
+            "name": project_name,
+            "status": JobStatus.QUEUED,
+            "progress": 0,
+            "created_at": datetime.now(),
+            "output_file": None,
+            "error": None
+        }
+        return job_id
+
+    def update_job(self, job_id: str, **kwargs):
+        if job_id in self.jobs:
+            self.jobs[job_id].update(kwargs)
+
+    def get_job(self, job_id: str) -> Optional[dict]:
+        return self.jobs.get(job_id)
+
+job_manager = JobManager()
+
+async def generate_video(project: VideoProject, job_id: str) -> str:
+
+    job_manager.update_job(job_id, status=JobStatus.PROCESSING, progress=10)
     
     # Define paths
     zvid_script = ROOT_DIR / "zvid" / "generate-video.js"
@@ -80,8 +107,8 @@ async def generate_video(project: VideoProject) -> str:
 
         if process.returncode != 0:
             error_msg = stderr.decode().strip()
-            stdout_msg = stdout.decode().strip()
-            raise VideoProcessingError(f"Video generation failed: {error_msg}\nSTDOUT: {stdout_msg}")
+            job_manager.update_job(job_id, status=JobStatus.FAILED, error=error_msg)
+            raise VideoProcessingError(f"Video generation failed: {error_msg}")
             
         # Parse stdout to find the success message
         output_lines = stdout.decode().splitlines()
@@ -92,11 +119,18 @@ async def generate_video(project: VideoProject) -> str:
                 video_path = line.split("SUCCESS:", 1)[1].strip()
                 
         if not video_path:
+             job_manager.update_job(job_id, status=JobStatus.FAILED, error="No path returned")
              raise VideoProcessingError("Video generation completed but returned no path.")
              
+        job_manager.update_job(job_id, status=JobStatus.COMPLETED, progress=100, output_file=video_path)
         return video_path
+
+    except Exception as e:
+        job_manager.update_job(job_id, status=JobStatus.FAILED, error=str(e))
+        raise
 
     finally:
         # Clean up the temp file
         if os.path.exists(tmp_path):
             os.remove(tmp_path)
+

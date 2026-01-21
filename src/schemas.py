@@ -1,5 +1,21 @@
 from pydantic import BaseModel, HttpUrl
 from typing import List, Optional, Literal, Union
+from enum import Enum
+
+class JobStatus(str, Enum):
+    QUEUED = "queued"
+    PROCESSING = "processing"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+class JobResponse(BaseModel):
+    job_id: str
+    status: JobStatus
+    message: Optional[str] = None
+    error: Optional[str] = None
+    progress: Optional[int] = 0
+    output_file: Optional[str] = None
+
 
 class TextStyle(BaseModel):
     fontSize: Optional[Union[str, int]] = "72px"

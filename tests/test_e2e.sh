@@ -41,18 +41,47 @@ echo "📂 JSON: $JSON_FILE"
 echo "📤 Output: $OUTPUT_FILE"
 
 # Send request
-# Note: we use -s for silent and -w to get http code
-RESPONSE_CODE=$(curl -s -o "$OUTPUT_FILE" -w "%{http_code}" -X POST "$API_URL" \
+echo "📤 Submitting job..."
+RESPONSE=$(curl -s -X POST "$API_URL" \
   -H "Content-Type: application/json" \
   -d @"$JSON_FILE")
 
-if [ "$RESPONSE_CODE" -ne 200 ]; then
-    echo "❌ Error: API request failed with HTTP $RESPONSE_CODE"
-    if [ -f "$OUTPUT_FILE" ]; then
-        echo "Response body:"
-        cat "$OUTPUT_FILE"
-        rm "$OUTPUT_FILE"
+JOB_ID=$(echo "$RESPONSE" | jq -r '.job_id')
+
+if [ "$JOB_ID" == "null" ] || [ -z "$JOB_ID" ]; then
+    echo "❌ Error: Failed to get job_id from API. Response:"
+    echo "$RESPONSE"
+    exit 1
+fi
+
+echo "🆔 Job ID: $JOB_ID"
+
+# Polling
+echo "⏳ Polling for completion..."
+while true; do
+    STATUS_RESP=$(curl -s "${API_URL%/generate}/status/$JOB_ID")
+    STATUS=$(echo "$STATUS_RESP" | jq -r '.status')
+    PROGRESS=$(echo "$STATUS_RESP" | jq -r '.progress')
+    
+    echo "   Status: $STATUS ($PROGRESS%)"
+    
+    if [ "$STATUS" == "completed" ]; then
+        echo "✅ Job completed!"
+        break
+    elif [ "$STATUS" == "failed" ]; then
+        ERROR=$(echo "$STATUS_RESP" | jq -r '.error // .message')
+        echo "❌ Job failed: $ERROR"
+        exit 1
     fi
+    sleep 2
+done
+
+# Download
+echo "📥 Downloading video to $OUTPUT_FILE..."
+RESPONSE_CODE=$(curl -s -o "$OUTPUT_FILE" -w "%{http_code}" "${API_URL%/generate}/download/$JOB_ID")
+
+if [ "$RESPONSE_CODE" -ne 200 ]; then
+    echo "❌ Error: Download failed with HTTP $RESPONSE_CODE"
     exit 1
 fi
 
