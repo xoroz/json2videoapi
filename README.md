@@ -79,6 +79,10 @@ Example payload:
 }
 ```
 
+## Credits
+
+This project leverages the excellent [zvid](https://github.com/Zvid-io/zvid) package for video generation. Special thanks to the original authors of `zvid` for their work in providing a fully-featured Node.js package for generating videos from JSON configurations using FFmpeg.
+
 ## License
 
 ISC
