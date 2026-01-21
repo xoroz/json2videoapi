@@ -121,18 +121,18 @@
     {
       "type": "TEXT",
       "text": "PREMIUM QUALITY",
-      "position": "center",
+      "position": "bottom-center",
       "style": {
-        "fontSize": "120px",
+        "fontSize": "150px",
         "color": "#ffffff",
         "fontWeight": "900",
         "textShadow": "0 10px 30px rgba(0,0,0,0.8)"
       },
-      "enterBegin": 1, "exitEnd": 8, "enterAnimation": "smoothdown"
+      "enterBegin": 1, "exitEnd": 8, "enterAnimation": "smoothup"
     }
   ],
   "subtitle": {
-    "styles": { "fontSize": 60, "color": "#facc15" },
+    "styles": { "fontSize": 80, "color": "#facc15", "marginV": 50 },
     "captions": [
       { "start": 0, "end": 3, "text": "Stunning visuals..." },
       { "start": 3, "end": 6, "text": "...powered by zvid..." },
@@ -157,36 +157,55 @@
             btn.disabled = true;
             status.style.display = 'block';
             status.className = 'loading';
-            status.innerText = '⚙️ Generating video... this may take a few seconds.';
+            status.innerText = '⚙️ Submitting job...';
             video.style.display = 'none';
             downloadContainer.innerHTML = '';
 
             try {
+                // 1. Submit Job
                 const project = JSON.parse(input.value);
-                const response = await fetch('/generate', {
+                const submitResp = await fetch('/generate', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(project)
                 });
 
-                if (!response.ok) {
-                    const error = await response.json();
-                    throw new Error(error.detail || 'Generation failed');
+                if (!submitResp.ok) {
+                    const error = await submitResp.json();
+                    throw new Error(error.detail || 'Job submission failed');
                 }
 
-                const blob = await response.blob();
-                const url = URL.createObjectURL(blob);
-                
-                status.className = 'success';
-                status.innerText = '✅ Video generated successfully!';
-                
-                video.src = url;
-                video.style.display = 'block';
-                video.play();
+                const { job_id, status: initialStatus } = await submitResp.json();
+                status.innerText = `⚙️ Job ${initialStatus}... (ID: ${job_id})`;
 
-                // Static file link (optional verification)
-                const filename = project.name + '.mp4';
-                downloadContainer.innerHTML = `<a href="/output/${encodeURIComponent(filename)}" target="_blank" style="color: #6366f1;">🔗 Direct Static Link</a>`;
+                // 2. Poll for Status
+                let isComplete = false;
+                while (!isComplete) {
+                    await new Promise(r => setTimeout(r, 2000)); // Wait 2s
+
+                    const polResp = await fetch(`/status/${job_id}`);
+                    if (!polResp.ok) throw new Error("Failed to check status");
+
+                    const job = await polResp.json();
+
+                    if (job.status === 'completed') {
+                        isComplete = true;
+                        status.className = 'success';
+                        status.innerText = '✅ Video generated successfully!';
+
+                        // 3. Display
+                        const downloadUrl = `/download/${job_id}`;
+                        video.src = downloadUrl;
+                        video.style.display = 'block';
+                        video.play();
+
+                        downloadContainer.innerHTML = `<a href="${downloadUrl}" target="_blank" style="color: #6366f1;">🔗 Download Video</a>`;
+                    } else if (job.status === 'failed') {
+                        throw new Error(job.error || 'Video generation failed');
+                    } else {
+                        status.innerText = `⚙️ Processing... ${job.progress || 0}%`;
+                    }
+                }
 
             } catch (err) {
                 status.className = 'error';
