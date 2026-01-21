@@ -54,13 +54,15 @@ Track these steps as TODOs and complete them one by one.
 4. **Implement tasks sequentially** - Complete in order
 5. **Confirm completion** - Ensure every item in `tasks.md` is finished before updating statuses
 6. **Update checklist** - After all work is done, set every task to `- [x]` so the list reflects reality
-7. **Approval gate** - Do not start implementation until the proposal is reviewed and approved
+7. **Approval gate** - Ensure the USER approves the final state of the implementation
+8. **Update specs** - After implementation, update specs in `openspec/specs/` to reflect changes
+9. **Commit & Push** - Final `git commit` and `git push` using the `git-manager` skill (after confirmation and spec updates, but BEFORE archiving)
 
 ### Stage 3: Archiving Changes
-After deployment, create separate PR to:
+After deployment and git push, create separate PR to:
 - Move `changes/[name]/` → `changes/archive/YYYY-MM-DD-[name]/`
-- Update `specs/` if capabilities changed
-- Use `openspec archive <change-id> --skip-specs --yes` for tooling-only changes (always pass the change ID explicitly)
+- Update `specs/` if capabilities changed (usually handled by `openspec archive`)
+- Use `openspec archive <change-id> --skip-specs --yes` for tooling-only changes
 - Run `openspec validate --strict --no-interactive` to confirm the archived change passes checks
 
 ## Before Any Task
