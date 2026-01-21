@@ -1,0 +1,36 @@
+{
+    "name": "Subtitles Test",
+    "resolution": "720p",
+    "duration": 5,
+    "visuals": [
+        {
+            "type": "TEXT",
+            "text": "Background Text",
+            "style": {
+                "fontSize": "40px"
+            },
+            "position": "center",
+            "enterBegin": 0,
+            "exitEnd": 5
+        }
+    ],
+    "subtitle": {
+        "styles": {
+            "fontSize": 60,
+            "color": "#ffff00",
+            "fontFamily": "Arial"
+        },
+        "captions": [
+            {
+                "start": 0.5,
+                "end": 2.5,
+                "text": "This is the first caption"
+            },
+            {
+                "start": 3.0,
+                "end": 4.5,
+                "text": "And the second one"
+            }
+        ]
+    }
+}

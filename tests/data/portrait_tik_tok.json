@@ -1,0 +1,43 @@
+{
+    "name": "Portrait TikTok Test",
+    "resolution": "tiktok",
+    "duration": 5,
+    "backgroundColor": "#121212",
+    "visuals": [
+        {
+            "type": "TEXT",
+            "text": "Vertical HD",
+            "style": {
+                "fontSize": "100px",
+                "color": "#fe2c55"
+            },
+            "position": "top-center",
+            "y": 100,
+            "enterBegin": 0,
+            "exitEnd": 5
+        },
+        {
+            "type": "IMAGE",
+            "src": "https://picsum.photos/seed/zvid_portrait/1080/1920",
+            "position": "center",
+            "enterBegin": 1,
+            "exitEnd": 5,
+            "width": 800,
+            "height": 1400,
+            "resize": "cover"
+        }
+    ],
+    "subtitle": {
+        "styles": {
+            "fontSize": 50,
+            "marginV": 100
+        },
+        "captions": [
+            {
+                "start": 0,
+                "end": 5,
+                "text": "Testing TikTok Resolution (1080x1920)"
+            }
+        ]
+    }
+}

@@ -1,0 +1,23 @@
+:8080 {
+    log {
+        output file logs/caddy.log
+    }
+
+    # Static UI for testing
+    handle /test {
+        rewrite * /test.html
+        root * /home/felix/projects/json2videoapi/tests
+        file_server
+    }
+
+    # Static files for generations
+    handle_path /output/* {
+        root * /home/felix/projects/json2videoapi/output
+        file_server browse
+    }
+
+    # API endpoints
+    handle {
+        reverse_proxy localhost:8000
+    }
+}

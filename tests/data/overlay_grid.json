@@ -1,0 +1,72 @@
+{
+    "name": "Overlay Grid Test",
+    "resolution": "full-hd",
+    "duration": 5,
+    "backgroundColor": "#000000",
+    "visuals": [
+        {
+            "type": "IMAGE",
+            "src": "https://picsum.photos/seed/g1/400/400",
+            "x": 100,
+            "y": 100,
+            "width": 400,
+            "height": 400,
+            "enterBegin": 0,
+            "enterEnd": 1,
+            "exitBegin": 4,
+            "exitEnd": 5,
+            "enterAnimation": "fade"
+        },
+        {
+            "type": "IMAGE",
+            "src": "https://picsum.photos/seed/g2/400/400",
+            "x": 600,
+            "y": 100,
+            "width": 400,
+            "height": 400,
+            "enterBegin": 0.5,
+            "enterEnd": 1.5,
+            "exitBegin": 4,
+            "exitEnd": 5,
+            "enterAnimation": "fade"
+        },
+        {
+            "type": "IMAGE",
+            "src": "https://picsum.photos/seed/g3/400/400",
+            "x": 1100,
+            "y": 100,
+            "width": 400,
+            "height": 400,
+            "enterBegin": 1,
+            "enterEnd": 2,
+            "exitBegin": 4,
+            "exitEnd": 5,
+            "enterAnimation": "fade"
+        },
+        {
+            "type": "SVG",
+            "svg": "<svg width=\"200\" height=\"200\"><rect width=\"200\" height=\"200\" fill=\"yellow\"/></svg>",
+            "x": 100,
+            "y": 600,
+            "width": 200,
+            "height": 200,
+            "enterBegin": 1.5,
+            "enterEnd": 2.5,
+            "exitBegin": 4,
+            "exitEnd": 5,
+            "enterAnimation": "fade"
+        },
+        {
+            "type": "TEXT",
+            "text": "GRID LAYOUT",
+            "x": 600,
+            "y": 700,
+            "style": {
+                "fontSize": "80px",
+                "color": "#00ff00"
+            },
+            "enterBegin": 2,
+            "exitEnd": 5
+        }
+    ]
+}

@@ -1,0 +1,63 @@
+{
+    "name": "Image Segments Test",
+    "resolution": "full-hd",
+    "duration": 9,
+    "visuals": [
+        {
+            "type": "IMAGE",
+            "src": "https://picsum.photos/seed/zvid1/1920/1080",
+            "position": "center",
+            "enterBegin": 0,
+            "enterEnd": 1,
+            "exitBegin": 2,
+            "exitEnd": 3,
+            "enterAnimation": "fade",
+            "exitAnimation": "fade"
+        },
+        {
+            "type": "IMAGE",
+            "src": "https://picsum.photos/seed/zvid2/1920/1080",
+            "position": "center",
+            "enterBegin": 3,
+            "enterEnd": 4,
+            "exitBegin": 5,
+            "exitEnd": 6,
+            "enterAnimation": "fade",
+            "exitAnimation": "fade"
+        },
+        {
+            "type": "IMAGE",
+            "src": "https://picsum.photos/seed/zvid3/1920/1080",
+            "position": "center",
+            "enterBegin": 6,
+            "enterEnd": 7,
+            "exitBegin": 8,
+            "exitEnd": 9,
+            "enterAnimation": "fade",
+            "exitAnimation": "fade"
+        }
+    ],
+    "subtitle": {
+        "styles": {
+            "fontSize": 80,
+            "color": "#ffffff"
+        },
+        "captions": [
+            {
+                "start": 0,
+                "end": 3,
+                "text": "Segment One: Nature's First Visual"
+            },
+            {
+                "start": 3,
+                "end": 6,
+                "text": "Segment Two: Continuing the Journey"
+            },
+            {
+                "start": 6,
+                "end": 9,
+                "text": "Segment Three: The Final Chapter"
+            }
+        ]
+    }
+}

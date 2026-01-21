@@ -1,0 +1,27 @@
+{
+    "name": "Video Sample Test",
+    "resolution": "hd",
+    "duration": 10,
+    "visuals": [
+        {
+            "type": "VIDEO",
+            "src": "https://www.w3schools.com/html/mov_bbb.mp4",
+            "position": "center",
+            "enterBegin": 0,
+            "exitEnd": 10,
+            "volume": 0.5
+        },
+        {
+            "type": "TEXT",
+            "text": "Overlaid Video",
+            "style": {
+                "fontSize": "40px",
+                "backgroundColor": "rgba(0,0,0,0.5)"
+            },
+            "position": "bottom-center",
+            "y": -50,
+            "enterBegin": 2,
+            "exitEnd": 8
+        }
+    ]
+}

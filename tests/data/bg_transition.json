@@ -1,0 +1,27 @@
+{
+    "name": "Background Transition Test",
+    "resolution": "720p",
+    "duration": 6,
+    "backgroundColor": "#000000",
+    "visuals": [
+        {
+            "type": "SVG",
+            "svg": "<svg width=\"1280\" height=\"720\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#ff0000\"/></svg>",
+            "position": "center",
+            "enterBegin": 0,
+            "enterEnd": 2,
+            "exitBegin": 2,
+            "exitEnd": 4,
+            "enterAnimation": "fade",
+            "exitAnimation": "fade"
+        },
+        {
+            "type": "SVG",
+            "svg": "<svg width=\"1280\" height=\"720\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#0000ff\"/></svg>",
+            "position": "center",
+            "enterBegin": 4,
+            "enterEnd": 6,
+            "enterAnimation": "fade"
+        }
+    ]
+}

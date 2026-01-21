@@ -1,0 +1,31 @@
+{
+    "name": "Default Test",
+    "resolution": "720p",
+    "duration": 5,
+    "visuals": [
+        {
+            "type": "TEXT",
+            "text": "Hello World",
+            "style": {
+                "fontSize": "80px",
+                "color": "#ffffff"
+            },
+            "position": "center",
+            "enterBegin": 0,
+            "enterEnd": 1,
+            "exitBegin": 4,
+            "exitEnd": 5
+        },
+        {
+            "type": "IMAGE",
+            "src": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800",
+            "position": "center",
+            "enterBegin": 1,
+            "enterEnd": 2,
+            "exitBegin": 4,
+            "exitEnd": 5,
+            "width": 400,
+            "height": 300
+        }
+    ]
+}
