@@ -27,7 +27,7 @@ The API SHALL provide comprehensive help documentation at the `/help` endpoint t
 
 #### Scenario: User requests help documentation
 - **WHEN** a GET request is made to `/help`
-- **THEN** the API returns an HTML page containing:
+- **THEN** the API returns a JSON response containing:
   - API title, description, and version
   - "How It Works" section explaining the async video generation flow
   - Comprehensive examples demonstrating various capabilities (text, images, subtitles, transitions, overlays)
@@ -37,7 +37,7 @@ The API SHALL provide comprehensive help documentation at the `/help` endpoint t
 
 #### Scenario: User views help in browser
 - **WHEN** a user navigates to `/help` in a web browser
-- **THEN** the HTML documentation is displayed with modern, professional styling
+- **THEN** the JSON documentation is displayed in a readable format
 - **AND** includes multiple real-world examples from test data
 - **AND** provides clear guidance on creating different types of videos
 
