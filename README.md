@@ -53,7 +53,15 @@ Run the end-to-end test script:
 ./tests/test_e2e.sh
 ```
 
-## API Specification
+## API Usage
+
+The API provides multiple ways to explore and understand the endpoints:
+
+- **`GET /help`** - Comprehensive JSON documentation with examples and field descriptions
+- **`GET /docs`** - Interactive Swagger UI with full schema documentation and "Try it out" functionality
+- **`GET /`** - Root URL redirects to `/help`
+
+For quick reference and copy-paste examples, use `/help`. For interactive testing and detailed schema exploration, use `/docs`.
 
 ### POST `/generate`
 
@@ -78,6 +86,15 @@ Example payload:
   ]
 }
 ```
+
+### Other Endpoints
+
+- `GET /help` - API documentation and usage examples
+- `GET /status/{job_id}` - Check video generation status
+- `GET /download/{job_id}` - Download completed video
+- `GET /health` - Service health check
+
+For full API documentation, start the server and visit `http://localhost:8000/help` or use `curl http://localhost:8000/help`.
 
 ## Credits
 

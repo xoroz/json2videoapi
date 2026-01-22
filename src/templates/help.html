@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - API Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .version {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .description {
+            font-size: 1.2rem;
+            color: #666;
+            margin-top: 1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .nav-links a {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .nav-links a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        section {
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .workflow-steps {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .workflow-steps ol {
+            margin-left: 1.5rem;
+        }
+
+        .workflow-steps li {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .example-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e0e0e0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .example-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .example-title {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .example-desc {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Courier New', monospace;
+        }
+
+        .endpoint {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .endpoint-method {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 5px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+        }
+
+        .method-get {
+            background: #61affe;
+            color: white;
+        }
+
+        .method-post {
+            background: #49cc90;
+            color: white;
+        }
+
+        .endpoint-path {
+            font-family: monospace;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .tips-list {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        .tips-list li {
+            margin: 0.5rem 0;
+            padding-left: 0.5rem;
+        }
+
+        .field-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .field-table th {
+            background: #667eea;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .field-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .field-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e0e0e0;
+            color: #666;
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>{{ title }}</h1>
+            <span class="version">v{{ version }}</span>
+            <p class="description">{{ description }}</p>
+            <div class="nav-links">
+                <a href="/docs" target="_blank">📚 Interactive API Docs</a>
+                <a href="/health">🏥 Health Check</a>
+            </div>
+        </header>
+
+        <section id="how-it-works">
+            <h2>🚀 How It Works</h2>
+            <p><strong>{{ how_it_works.overview }}</strong></p>
+            <div class="workflow-steps">
+                <ol>
+                    {% for step in how_it_works.steps %}
+                    <li>{{ step }}</li>
+                    {% endfor %}
+                </ol>
+                <p style="margin-top: 1rem;"><em>⏱️ {{ how_it_works.typical_generation_time }}</em></p>
+            </div>
+        </section>
+
+        <section id="endpoints">
+            <h2>🔌 API Endpoints</h2>
+            {% for endpoint, details in endpoints.items() %}
+            <div class="endpoint">
+                <div>
+                    {% if 'POST' in endpoint %}
+                    <span class="endpoint-method method-post">POST</span>
+                    {% else %}
+                    <span class="endpoint-method method-get">GET</span>
+                    {% endif %}
+                    <span class="endpoint-path">{{ endpoint.split(' ')[1] }}</span>
+                </div>
+                <p style="margin-top: 0.5rem; color: #666;">{{ details.description }}</p>
+            </div>
+            {% endfor %}
+        </section>
+
+        <section id="examples">
+            <h2>💡 Examples</h2>
+            <p>Here are real-world examples demonstrating various capabilities:</p>
+
+            {% for example_key, example_data in examples.items() %}
+            <div class="example-card">
+                <div class="example-title">{{ example_key.replace('_', ' ').title() }}</div>
+                <div class="example-desc">{{ example_data.description }}</div>
+                <pre><code>{{ example_data.spec | tojson(indent=2) }}</code></pre>
+            </div>
+            {% endfor %}
+        </section>
+
+        <section id="field-docs">
+            <h2>📖 Field Documentation</h2>
+
+            <h3>Project-Level Fields</h3>
+            <table class="field-table">
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for field, desc in field_documentation.project_level.items() %}
+                    <tr>
+                        <td><code>{{ field }}</code></td>
+                        <td>{{ desc }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h3>Visual Element Fields</h3>
+            <table class="field-table">
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for field, desc in field_documentation.visual_element.items() %}
+                    <tr>
+                        <td><code>{{ field }}</code></td>
+                        <td>{{ desc }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section id="tips">
+            <h2>💡 Pro Tips</h2>
+            <div class="tips-list">
+                <ul>
+                    {% for tip in tips %}
+                    <li>{{ tip }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+
+        <footer>
+            <p><strong>Need More Help?</strong></p>
+            <p>
+                Visit <a href="/docs">Swagger UI</a> for interactive API testing |
+                <a href="{{ support.contact }}" target="_blank">GitHub Repository</a>
+            </p>
+            <p style="margin-top: 1rem; font-size: 0.9rem;">{{ support.documentation }}</p>
+        </footer>
+    </div>
+</body>
+
+</html>
