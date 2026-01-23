@@ -56,6 +56,33 @@ Render raw SVG content.
 }
 ```
 
+### Audio
+Add background music or audio to your video.
+```json
+{
+  "audios": [
+    {
+      "src": "path/to/audio.mp3",
+      "volume": 0.7
+    }
+  ]
+}
+```
+
+**Audio Properties:**
+- `src`: Path to audio file (relative to project root or absolute path)
+- `volume`: Volume level from 0.0 to 1.0 (default: 1.0)
+- `audioBegin`: Start time in the audio file (optional)
+- `audioEnd`: End time in the audio file (optional)
+
+**Audio Trimming:**
+The API automatically trims audio files to match your video duration before processing. This optimization:
+- Reduces FFmpeg processing time
+- Saves CPU resources
+- Ensures audio doesn't extend beyond video length
+
+**Supported Formats:** MP3, WAV, AAC, OGG, and other FFmpeg-supported formats
+
 ### Static File Access
 Once a video is generated, it is stored in the `output/` folder and can be accessed directly at:
 `http://localhost:8080/output/<filename>.mp4`

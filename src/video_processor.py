@@ -39,6 +39,70 @@ class JobManager:
 
 job_manager = JobManager()
 
+async def trim_audio_to_duration(audio_src: str, duration: float, project_name: str) -> str:
+    """
+    Trim audio file to specified duration using FFmpeg.
+    Returns path to the trimmed audio file in artifacts directory.
+    """
+    import logging
+    logger = logging.getLogger("src.main")
+    
+    # Resolve audio path relative to ROOT_DIR
+    audio_path = Path(audio_src)
+    if not audio_path.is_absolute():
+        audio_path = ROOT_DIR / audio_src
+    
+    # Check if audio file exists
+    if not audio_path.exists():
+        raise VideoProcessingError(f"Audio file not found: {audio_src}")
+    
+    # Create trimmed audio in artifacts directory
+    artifacts_dir = ROOT_DIR / "tests" / "data" / "artifacts"
+    artifacts_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Generate filename based on project name and duration
+    safe_name = project_name.replace(" ", "-").replace("/", "-")
+    trimmed_filename = f"{safe_name}-audio-{int(duration)}s.mp3"
+    trimmed_audio_path = artifacts_dir / trimmed_filename
+    
+    try:
+        # Use FFmpeg to trim audio to specified duration
+        cmd = [
+            "ffmpeg",
+            "-i", str(audio_path),
+            "-t", str(duration),
+            "-acodec", "copy",
+            "-y",  # Overwrite output file
+            str(trimmed_audio_path)
+        ]
+        
+        logger.info(f"Trimming audio {audio_src} to {duration} seconds -> {trimmed_audio_path}")
+        
+        process = await asyncio.create_subprocess_exec(
+            *cmd,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE
+        )
+        
+        stdout, stderr = await process.communicate()
+        
+        if process.returncode != 0:
+            error_msg = stderr.decode().strip()
+            logger.error(f"FFmpeg audio trim failed: {error_msg}")
+            # Clean up file on error
+            if trimmed_audio_path.exists():
+                trimmed_audio_path.unlink()
+            raise VideoProcessingError(f"Audio trimming failed: {error_msg}")
+        
+        logger.info(f"Audio trimmed successfully to {trimmed_audio_path}")
+        return str(trimmed_audio_path)
+        
+    except Exception as e:
+        # Clean up file on error
+        if trimmed_audio_path.exists():
+            trimmed_audio_path.unlink()
+        raise
+
 async def generate_video(project: VideoProject, job_id: str) -> str:
 
     job_manager.update_job(job_id, status=JobStatus.PROCESSING, progress=10)
@@ -77,6 +141,34 @@ async def generate_video(project: VideoProject, job_id: str) -> str:
             w, h = presets[res]
             project_dict.setdefault("width", w)
             project_dict.setdefault("height", h)
+
+    # Process audio files - trim to video duration for optimization
+    trimmed_audio_files = []
+    if "audios" in project_dict and project_dict["audios"]:
+        import logging
+        logger = logging.getLogger("src.main")
+        logger.info(f"Processing {len(project_dict['audios'])} audio file(s)")
+        
+        for i, audio in enumerate(project_dict["audios"]):
+            if "src" in audio:
+                try:
+                    # Trim audio to video duration
+                    trimmed_path = await trim_audio_to_duration(
+                        audio["src"], 
+                        project_dict["duration"],
+                        project_dict["name"]
+                    )
+                    trimmed_audio_files.append(trimmed_path)
+                    # Update the audio source to point to trimmed file
+                    project_dict["audios"][i]["src"] = trimmed_path
+                    logger.info(f"Audio {i+1} trimmed and ready")
+                except Exception as e:
+                    logger.error(f"Failed to trim audio {audio['src']}: {e}")
+                    # Clean up any already trimmed files
+                    for temp_file in trimmed_audio_files:
+                        if os.path.exists(temp_file):
+                            os.remove(temp_file)
+                    raise
 
     with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as tmp:
         json.dump(project_dict, tmp)
@@ -130,7 +222,9 @@ async def generate_video(project: VideoProject, job_id: str) -> str:
         raise
 
     finally:
-        # Clean up the temp file
+        # Clean up the temp JSON file
         if os.path.exists(tmp_path):
             os.remove(tmp_path)
+        
+        # Note: Trimmed audio files are kept in artifacts directory for reuse
 

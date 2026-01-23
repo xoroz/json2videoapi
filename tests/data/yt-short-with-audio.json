@@ -1,0 +1,194 @@
+{
+    "name": "YouTube Short - Motivational Quotes with Music",
+    "resolution": "tiktok",
+    "duration": 25,
+    "backgroundColor": "#000000",
+    "audios": [
+        {
+            "src": "tests/data/artifacts/default.mp3",
+            "volume": 0.7
+        }
+    ],
+    "visuals": [
+        {
+            "type": "IMAGE",
+            "src": "tests/data/artifacts/1.png",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1920,
+            "resize": "cover",
+            "enterBegin": 0,
+            "enterEnd": 0.5,
+            "exitBegin": 4.5,
+            "exitEnd": 5,
+            "enterAnimation": "fade",
+            "exitAnimation": "fade"
+        },
+        {
+            "type": "TEXT",
+            "text": "Rise above the noise. Your potential is limitless.",
+            "position": "center-center",
+            "y": 900,
+            "style": {
+                "width": "1000px",
+                "fontSize": "84px",
+                "color": "#ffffff",
+                "fontWeight": "bold",
+                "textAlign": "center",
+                "textShadow": "3px 3px 12px rgba(0,0,0,0.9)",
+                "padding": "20px"
+            },
+            "enterBegin": 0.5,
+            "enterEnd": 1,
+            "exitBegin": 4,
+            "exitEnd": 5,
+            "enterAnimation": "fade",
+            "exitAnimation": "fade"
+        },
+        {
+            "type": "IMAGE",
+            "src": "tests/data/artifacts/2.png",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1920,
+            "resize": "cover",
+            "enterBegin": 5,
+            "enterEnd": 5.5,
+            "exitBegin": 9.5,
+            "exitEnd": 10,
+            "enterAnimation": "fade",
+            "exitAnimation": "fade"
+        },
+        {
+            "type": "TEXT",
+            "text": "Be the rock the waves break upon. Stand firm.",
+            "position": "center-center",
+            "y": 900,
+            "style": {
+                "width": "1000px",
+                "fontSize": "84px",
+                "color": "#ffffff",
+                "fontWeight": "bold",
+                "textAlign": "center",
+                "textShadow": "3px 3px 12px rgba(0,0,0,0.9)",
+                "padding": "20px"
+            },
+            "enterBegin": 5.5,
+            "enterEnd": 6,
+            "exitBegin": 9,
+            "exitEnd": 10,
+            "enterAnimation": "fade",
+            "exitAnimation": "fade"
+        },
+        {
+            "type": "IMAGE",
+            "src": "tests/data/artifacts/3.png",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1920,
+            "resize": "cover",
+            "enterBegin": 10,
+            "enterEnd": 10.5,
+            "exitBegin": 14.5,
+            "exitEnd": 15,
+            "enterAnimation": "fade",
+            "exitAnimation": "fade"
+        },
+        {
+            "type": "TEXT",
+            "text": "Walk your own path. Even if you walk alone.",
+            "position": "center-center",
+            "y": 900,
+            "style": {
+                "width": "1000px",
+                "fontSize": "84px",
+                "color": "#ffffff",
+                "fontWeight": "bold",
+                "textAlign": "center",
+                "textShadow": "3px 3px 12px rgba(0,0,0,0.9)",
+                "padding": "20px"
+            },
+            "enterBegin": 10.5,
+            "enterEnd": 11,
+            "exitBegin": 14,
+            "exitEnd": 15,
+            "enterAnimation": "fade",
+            "exitAnimation": "fade"
+        },
+        {
+            "type": "IMAGE",
+            "src": "tests/data/artifacts/4.png",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1920,
+            "resize": "cover",
+            "enterBegin": 15,
+            "enterEnd": 15.5,
+            "exitBegin": 19.5,
+            "exitEnd": 20,
+            "enterAnimation": "fade",
+            "exitAnimation": "fade"
+        },
+        {
+            "type": "TEXT",
+            "text": "Build in silence. Let your success make the noise.",
+            "position": "center-center",
+            "y": 900,
+            "style": {
+                "width": "1000px",
+                "fontSize": "84px",
+                "color": "#ffffff",
+                "fontWeight": "bold",
+                "textAlign": "center",
+                "textShadow": "3px 3px 12px rgba(0,0,0,0.9)",
+                "padding": "20px"
+            },
+            "enterBegin": 15.5,
+            "enterEnd": 16,
+            "exitBegin": 19,
+            "exitEnd": 20,
+            "enterAnimation": "fade",
+            "exitAnimation": "fade"
+        },
+        {
+            "type": "IMAGE",
+            "src": "tests/data/artifacts/5.png",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1920,
+            "resize": "cover",
+            "enterBegin": 20,
+            "enterEnd": 20.5,
+            "exitBegin": 24.5,
+            "exitEnd": 25,
+            "enterAnimation": "fade",
+            "exitAnimation": "fade"
+        },
+        {
+            "type": "TEXT",
+            "text": "You have power over your mind, not outside events.",
+            "position": "center-center",
+            "y": 900,
+            "style": {
+                "width": "1000px",
+                "fontSize": "84px",
+                "color": "#ffffff",
+                "fontWeight": "bold",
+                "textAlign": "center",
+                "textShadow": "3px 3px 12px rgba(0,0,0,0.9)",
+                "padding": "20px"
+            },
+            "enterBegin": 20.5,
+            "enterEnd": 21,
+            "exitBegin": 24,
+            "exitEnd": 25,
+            "enterAnimation": "fade",
+            "exitAnimation": "fade"
+        }
+    ]
+}
