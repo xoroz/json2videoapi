@@ -104,6 +104,8 @@ This is the Main Dev Agent working from the json2videoapi folder on branch main.
 
 This project leverages the excellent [zvid](https://github.com/Zvid-io/zvid) package for video generation. Special thanks to the original authors of `zvid` for their work in providing a fully-featured Node.js package for generating videos from JSON configurations using FFmpeg.
 
+This is the Tester Agent working from the json2videoapi-tester folder on branch dev-testing. I have verified the Dev's entry.
+
 ## License
 
 ISC
