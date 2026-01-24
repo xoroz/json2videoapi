@@ -96,6 +96,10 @@ Example payload:
 
 For full API documentation, start the server and visit `http://localhost:8000/help` or use `curl http://localhost:8000/help`.
 
+## Agent Roles
+
+This is the Main Dev Agent working from the json2videoapi folder on branch main.
+
 ## Credits
 
 This project leverages the excellent [zvid](https://github.com/Zvid-io/zvid) package for video generation. Special thanks to the original authors of `zvid` for their work in providing a fully-featured Node.js package for generating videos from JSON configurations using FFmpeg.

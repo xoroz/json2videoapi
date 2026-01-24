@@ -1,67 +1,44 @@
-name: git-manager 
-description: Simple git handling. Checks status, adds changes, and commits using OpenSpec proposal titles or a timestamped fallback.
-
-# Git Manager Skill
+# Skill: git-manager
+**Description:** Worktree-aware Git handling for Dual-Agent (Dev/Tester) sync using OpenSpec and ENV-based authentication.
 
 ## Goal
-To save code changes to git with minimal friction, prioritizing OpenSpec naming conventions for commit messages and handling authentication via environment variables if provided.
+To synchronize code changes between two parallel worktrees with zero friction, ensuring correct commit naming and automated pushes.
 
 ## Workflow
 
-### 1. Check Status
-Always run this command first to verify the current state of the repo:
-```bash
-git status
-```
+### 1. Identify Role & Environment
+1. **Identify Role:**
+   - If `pwd` contains `json2videoapi` (but NOT tester) -> Role: **Dev** (Branch: `main`)
+   - If `pwd` contains `json2videoapi-tester` -> Role: **Tester** (Branch: `dev-testing`)
 
-### 2. Determine Commit Message
-The agent must determine the commit message based on the following logic:
+### 2. Sync State (The Handshake)
+Before starting work, the agent must pull the latest data:
+- `git fetch origin`
+- **If Role is Dev:** `git merge origin/dev-testing` (Pull fixes from Tester)
+- **If Role is Tester:** `git merge origin/main` (Pull features from Dev)
+- **Check Status:** `git status`
 
-#### Priority A: OpenSpec Proposal
-- **Search**: Look for any file matching the pattern `openspec/changes/*/proposal.md`.
-- **Read**: If found, read the first line of that file.
-- **Parse**: Expect a format like `# Change: Improve Web Test`.
-- **Set Message**: Extract the text following `# Change: ` to use as the commit message (e.g., "Improve Web Test").
+### 3. Determine Commit Message
+**Priority A: OpenSpec Proposal**
+- Search `openspec/changes/*/proposal.md`.
+- Read first line (e.g., `# Change: Improve Web Test`).
+- **Formatting:**
+    - If Role is **Tester**: `[TEST/FIX] <extracted_text>`
+    - If Role is **Dev**: `feat: <extracted_text>`
 
-#### Priority B: Fallback
-- **Condition**: If no `proposal.md` is found or the header is missing.
-- **Set Message**: Create a message with the current timestamp and a brief, AI-generated summary of what changed.
-- **Format**: `[YYYY-MM-DD HH:MM] Auto-commit: <brief_summary_of_changes>`
+**Priority B: Fallback**
+- `[2026-01-24] Auto-commit: <brief_summary_of_changes>`
 
-### 3. Stage and Commit
-Once the message is determined, execute these commands in order:
+### 4. Stage and Commit
+- `git add .`
+- `git commit -m "<MESSAGE>"`
 
-**Stage all changes**:
-```bash
-git add .
-```
-
-**Commit**:
-```bash
-git commit -m "<MESSAGE>"
-```
-
-### 4. Push
-Push the changes to the remote, handling authentication and upstream issues.
-
-**Authentication Check**:
-Before pushing, check if the `GITHUB_API_KEY` environment variable is set.
-
-**If `GITHUB_API_KEY` is present**:
-Construct the push URL with the token and execute:
-```bash
-# (Agent must replace <owner>/<repo> with actual values from 'git remote get-url origin')
-git push https://$GITHUB_API_KEY@github.com/<owner>/<repo>.git
-```
-
-**If `GITHUB_API_KEY` is NOT present**:
-Simply run:
-```bash
-git push
-```
-
-**Missing Upstream Handling**:
-If the push fails due to a missing upstream branch (regardless of authentication method), retry with:
-```bash
-git push --set-upstream origin <current_branch>
-```
+### 5. Push (Authentication Logic)
+1. **Check Auth:** Check if `GITHUB_API_KEY` environment variable is set.
+2. **If GITHUB_API_KEY is present:**
+   - Get remote URL: `git remote get-url origin` (Example: `github.com/owner/repo`)
+   - Execute: `git push https://$GITHUB_API_KEY@github.com/<owner>/<repo>.git`
+3. **If GITHUB_API_KEY is NOT present:**
+   - Execute: `git push`
+4. **Missing Upstream Handling:** - If push fails with "no upstream", retry with:
+     `git push --set-upstream origin $(git branch --show-current)`
