@@ -1,0 +1,27 @@
+{
+    "description": "Example configuration for a space-themed vertical video with AI voiceover and karaoke subtitles.",
+    "script": "Welcome to the beginning of our grand journey into the unknown. We start at the launchpad, feeling the raw power of the engines as we lift off into the sky. As we break through the atmosphere, the blue sky fades into the darkness of space. We travel past the moon, exploring new craters and dust. Further out, we see the red planet Mars, a new frontier for humanity. Finally, we look back at our beautiful Earth, a blue marble floating in the void, reminding us of home.",
+    "images": [
+        "tests/data/artifacts/1.png",
+        "tests/data/artifacts/2.png",
+        "tests/data/artifacts/3.png",
+        "tests/data/artifacts/4.png",
+        "tests/data/artifacts/5.png"
+    ],
+    "markers": [
+        "atmosphere",
+        "moon",
+        "Mars",
+        "Earth"
+    ],
+    "settings": {
+        "voice_model": "eleven_monolingual_v1",
+        "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+        "subtitle_style": "karaoke",
+        "video_format": "9:16",
+        "resolution": [
+            1080,
+            1920
+        ]
+    }
+}

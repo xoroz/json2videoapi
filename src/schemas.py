@@ -113,6 +113,20 @@ class Audio(BaseModel):
     volume: Optional[float] = 1.0
     audioBegin: Optional[float] = 0.0
     audioEnd: Optional[float] = None
+    videoBegin: Optional[float] = 0.0 # Start time in the video
+
+class VoiceSettings(BaseModel):
+    stability: Optional[float] = 0.5
+    similarity_boost: Optional[float] = 0.75
+    style: Optional[float] = 0.0
+    use_speaker_boost: Optional[bool] = True
+
+class Voice(BaseModel):
+    text: str
+    voice_id: Optional[str] = None
+    videoBegin: Optional[float] = 0.0
+    volume: Optional[float] = 1.0
+    settings: Optional[VoiceSettings] = None
 
 class VideoProject(BaseModel):
     name: str # e.g. "my-video"
@@ -123,5 +137,6 @@ class VideoProject(BaseModel):
     duration: float
     visuals: List[Visual] = []
     audios: List[Audio] = []
+    voices: List[Voice] = []
     subtitle: Optional[Subtitle] = None
     outputFormat: Optional[str] = "mp4"

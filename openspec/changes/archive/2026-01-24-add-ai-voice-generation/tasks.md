@@ -1,0 +1,12 @@
+- [x] Create `VoiceGenerator` class with ElevenLabs integration (`src/processors/voice_generator.py`)
+- [x] Implement `extract_timings` method to parse ElevenLabs JSON response
+- [x] Create `ImageProcessor` class using Pillow (`src/processors/image_processor.py`)
+- [x] Implement `process_image` method to resize/crop to 1080x1920
+- [x] Create `SyncManager` class (`src/processors/sync_manager.py`)
+- [x] Implement `generate_inputs_txt` for FFmpeg concat demuxer
+- [x] Implement `generate_subs_ass` for subtitles
+- [x] Update `VideoProcessor` to use the new classes and workflow
+- [x] Add ElevenLabs API key to config and env handling
+- [x] Create test script to verify the full pipeline with `test-audio.json`
+- [ ] create a test video with 5 images and text as per specs/testing/spec.md 
+- [ ] Validate with user that its working!

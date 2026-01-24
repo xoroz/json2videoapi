@@ -59,7 +59,7 @@ Track these steps as TODOs and complete them one by one.
 9. **Commit & Push** - Final `git commit` and `git push` using the `git-manager` skill (after confirmation and spec updates, but BEFORE archiving)
 
 ### Stage 3: Archiving Changes
-After deployment and git push, create separate PR to:
+After USER APPROVAL ONLY ,  and git push, create separate PR to:
 - Move `changes/[name]/` → `changes/archive/YYYY-MM-DD-[name]/`
 - Update `specs/` if capabilities changed (usually handled by `openspec archive`)
 - Use `openspec archive <change-id> --skip-specs --yes` for tooling-only changes

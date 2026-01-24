@@ -4,3 +4,7 @@ pydantic
 pytest
 httpx
 jinja2
+elevenlabs
+python-dotenv
+Pillow
+requests
