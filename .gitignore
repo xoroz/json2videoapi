@@ -38,9 +38,7 @@ Thumbs.db
 # Testing Artifacts
 tests/data/artifacts/job_*/
 tests/data/artifacts/sync_debug/
-tests/data/artifacts/final-mix-*.mp3
-tests/data/artifacts/voice-*.mp3
-tests/data/artifacts/Complete-Voice-*.mp3
-tests/data/artifacts/Synced-Voice-*.mp3
+tests/data/artifacts/*.mp3
+tests/data/artifacts/proc_*.jpg
 tests/data/temp_test/
 *.log
